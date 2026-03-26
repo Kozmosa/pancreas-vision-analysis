@@ -1,3 +1,14 @@
 node_modules/
 package-lock.json
 package.json
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Local tooling
+.claude/
+.ruff_cache/
+
+# Generated experiment outputs
+artifacts/
