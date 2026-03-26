@@ -1,0 +1,148 @@
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+from pathlib import Path
+import time
+
+from pancreas_vision.data import discover_records, split_records, write_manifest
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Train a minimal ADM-vs-PanIN image-level baseline on current repo data."
+    )
+    parser.add_argument("--data-root", type=Path, default=Path("data"))
+    parser.add_argument("--output-dir", type=Path, default=Path("artifacts/baseline"))
+    parser.add_argument("--epochs", type=int, default=8)
+    parser.add_argument("--batch-size", type=int, default=8)
+    parser.add_argument("--image-size", type=int, default=224)
+    parser.add_argument("--learning-rate", type=float, default=1e-4)
+    parser.add_argument("--test-size", type=float, default=0.3)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--num-workers", type=int, default=2)
+    parser.add_argument(
+        "--include-multichannel",
+        action="store_true",
+        help="Include multichannel_adm and multichannel_kc_adm as authoritative labels.",
+    )
+    parser.add_argument(
+        "--exclude-kpc",
+        action="store_true",
+        help="Exclude the KPC folder if you want a stricter PanIN proxy based only on KC.",
+    )
+    parser.add_argument(
+        "--freeze-backbone",
+        action="store_true",
+        help="Freeze the pretrained ResNet18 backbone and train only the classifier head.",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+
+    import torch
+
+    from pancreas_vision.training import (
+        build_model,
+        create_dataloaders,
+        evaluate_model,
+        now_timestamp,
+        save_experiment_summary,
+        save_metrics,
+        save_predictions,
+        set_random_seed,
+        train_model,
+    )
+
+    start_time = time.time()
+    set_random_seed(args.seed)
+
+    records = discover_records(
+        args.data_root,
+        include_kpc=not args.exclude_kpc,
+        include_multichannel=args.include_multichannel,
+    )
+    train_records, test_records = split_records(
+        records,
+        test_size=args.test_size,
+        random_seed=args.seed,
+    )
+
+    output_dir = args.output_dir
+    output_dir.mkdir(parents=True, exist_ok=True)
+    write_manifest(train_records, output_dir / "train_manifest.csv")
+    write_manifest(test_records, output_dir / "test_manifest.csv")
+
+    print("Discovered records:", len(records))
+    print("Train label counts:", Counter(record.label_name for record in train_records))
+    print("Test label counts:", Counter(record.label_name for record in test_records))
+
+    train_loader, test_loader = create_dataloaders(
+        train_records=train_records,
+        test_records=test_records,
+        image_size=args.image_size,
+        batch_size=args.batch_size,
+        num_workers=args.num_workers,
+    )
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = build_model(freeze_backbone=args.freeze_backbone)
+    history = train_model(
+        model=model,
+        train_loader=train_loader,
+        device=device,
+        epochs=args.epochs,
+        learning_rate=args.learning_rate,
+        output_path=output_dir / "history.json",
+    )
+
+    metrics, predictions = evaluate_model(
+        model=model,
+        data_loader=test_loader,
+        device=device,
+    )
+    save_metrics(metrics, output_dir / "metrics.json")
+    save_predictions(predictions, output_dir / "predictions.json")
+    duration_seconds = time.time() - start_time
+    summary = {
+        "started_at": now_timestamp(),
+        "duration_seconds": duration_seconds,
+        "device": str(device),
+        "cuda_device_count": torch.cuda.device_count(),
+        "arguments": {
+            "data_root": args.data_root.as_posix(),
+            "output_dir": args.output_dir.as_posix(),
+            "epochs": args.epochs,
+            "batch_size": args.batch_size,
+            "image_size": args.image_size,
+            "learning_rate": args.learning_rate,
+            "test_size": args.test_size,
+            "seed": args.seed,
+            "num_workers": args.num_workers,
+            "include_multichannel": args.include_multichannel,
+            "exclude_kpc": args.exclude_kpc,
+            "freeze_backbone": args.freeze_backbone,
+        },
+        "record_counts": {
+            "total": len(records),
+            "train": len(train_records),
+            "test": len(test_records),
+        },
+        "label_counts": {
+            "train": dict(Counter(record.label_name for record in train_records)),
+            "test": dict(Counter(record.label_name for record in test_records)),
+        },
+        "metrics": metrics.__dict__,
+        "num_prediction_records": len(predictions),
+        "history": [item.__dict__ for item in history],
+    }
+    save_experiment_summary(summary, output_dir / "experiment_summary.json")
+
+    print("Metrics saved to", (output_dir / "metrics.json").as_posix())
+    print(metrics)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+{
+  "accuracy": 0.925,
+  "sensitivity": 1.0,
+  "specificity": 0.8571428571428571,
+  "roc_auc": 0.9774436090225564,
+  "true_negative": 18,
+  "false_positive": 3,
+  "false_negative": 0,
+  "true_positive": 19
+}
