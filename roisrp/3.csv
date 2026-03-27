@@ -1,0 +1,19 @@
+field_name,meaning,allowed / typical values,current guidance
+record_id,unique row id,"IMG_0001, IMG_0002, ...",one row per file
+source_folder,physical folder name,"caerulein, caerulein solved, kc, KPC, many colour",do not confuse with biological group
+file_name,image file name,*.tif,keep original spelling
+full_path,absolute file path,Windows path,used by loaders
+biological_group,biological grouping,Caerulein / KC / KPC,higher-level biological grouping
+background_model,mouse model / context,Caerulein / KC / KPC,same as current grouping unless later refined
+treatment,treatment condition,caerulein / none,folder-derived
+coarse_label,current working file-level label,ADM-like / PanIN-like / uncertain,explicit filenames override weaker folder priors
+magnification,objective magnification,10x / 20x / 40x / unknown,filename-derived when available
+image_type,channel / rendering type,amylase / ck19 / merge / unknown,filename-derived when available
+lesion_id,same lesion / field grouping,LESION_*,shared by paired views when known
+variant_id,subgroup within lesion,base / 1 / 2 / raw,helps keep solved subgroups separate
+naming_confidence,confidence in filename parsing,high / medium / low,"about parsing, not pathology"
+exclude_from_train,training mask,0 / 1,1 means archived or unresolved
+needs_manual_check,manual review flag,0 / 1,1 means inspect image before trusting metadata
+notes,free-text comments,text,captures caveats and special cases
+folder_level_prior,group-level pathology prior,text,added after user clarification; weak supervision only
+label_basis,why the label is what it is,filename-derived / user prior (folder-level) / filename-derived + user prior / user prior insufficient for file-level label,separates direct evidence from prior knowledge

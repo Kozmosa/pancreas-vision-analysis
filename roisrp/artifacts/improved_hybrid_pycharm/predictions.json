@@ -1,0 +1,282 @@
+[
+  {
+    "image_path": "data/caerulein_adm/10.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.4266524016857147,
+    "correct": true
+  },
+  {
+    "image_path": "data/caerulein_adm/5.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.06486350297927856,
+    "correct": true
+  },
+  {
+    "image_path": "data/caerulein_adm/7.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.09553606808185577,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_adm/10x-merge.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.0009118401794694364,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_adm/20x-merge.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.0050562238320708275,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_adm/40x-merge.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.02721366472542286,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_adm/amylase-adm-IF-10x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.00020760437473654747,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_adm/amylase-adm-IF-20x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.0023684664629399776,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_adm/amylase-adm-IF-40x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.011344646103680134,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_adm/ck-19-adm-IF-10x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.0015047072665765882,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_adm/ck-19-adm-IF-20x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.0006939238519407809,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_adm/ck-19-adm-IF-40x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.01245181169360876,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_kc_adm/amylase-kc-adm-IF-10x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.09864305704832077,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_kc_adm/amylase-kc-adm-IF-20x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.3487543761730194,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_kc_adm/amylase-kc-adm-IF-40x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.4780941307544708,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_kc_adm/ck-19-KC-adm-IF-10x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.15442636609077454,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_kc_adm/ck-19-KC-adm-IF-20x.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.18226087093353271,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_kc_adm/ck-19-KC-adm-IF-40x.tif",
+    "true_label": 0,
+    "predicted_label": 1,
+    "positive_score": 0.5088077783584595,
+    "correct": false
+  },
+  {
+    "image_path": "data/multichannel_kc_adm/KC-10x-merge.tif",
+    "true_label": 0,
+    "predicted_label": 0,
+    "positive_score": 0.3724798858165741,
+    "correct": true
+  },
+  {
+    "image_path": "data/multichannel_kc_adm/KC-20x-merge.tif",
+    "true_label": 0,
+    "predicted_label": 1,
+    "positive_score": 0.8185627460479736,
+    "correct": false
+  },
+  {
+    "image_path": "data/multichannel_kc_adm/KC-40x-merge.tif",
+    "true_label": 0,
+    "predicted_label": 1,
+    "positive_score": 0.9242199063301086,
+    "correct": false
+  },
+  {
+    "image_path": "data/KC/15.tif",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9193971157073975,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/3.tif",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.999212384223938,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/4.tif",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9961918592453003,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/5.tif",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9961426854133606,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9232732653617859,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=331,1161,508,1277#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9077349901199341,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=619,968,1081,1277#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9498807787895203,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=129,931,417,1165#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9487581253051758,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=1014,796,1230,983#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.7806029915809631,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=1,632,247,889#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9512752890586853,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=1235,597,1546,988#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.975636899471283,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=244,274,904,1022#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9850358963012695,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=1377,219,1617,497#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9841336011886597,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=120,187,444,604#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9927409291267395,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=662,0,1469,961#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9495090842247009,
+    "correct": true
+  },
+  {
+    "image_path": "data/KC/7.tif#crop=1096,0,1761,333#type=roi_crop",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9680249691009521,
+    "correct": true
+  },
+  {
+    "image_path": "data/KPC/1-amylase.tif",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.7880258560180664,
+    "correct": true
+  },
+  {
+    "image_path": "data/KPC/1-ck-19.tif",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.7081301212310791,
+    "correct": true
+  },
+  {
+    "image_path": "data/KPC/1.tif",
+    "true_label": 1,
+    "predicted_label": 1,
+    "positive_score": 0.9720820188522339,
+    "correct": true
+  }
+]
