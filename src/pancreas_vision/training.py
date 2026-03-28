@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import time
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -39,6 +39,10 @@ class PredictionRecord:
     predicted_label: int
     positive_score: float
     correct: bool
+    bag_id: str | None = None
+    source_bucket: str | None = None
+    label_name: str | None = None
+    sample_type: str | None = None
 
 
 @dataclass
@@ -47,6 +51,31 @@ class TrainingHistory:
     train_loss: float
     train_accuracy: float
     learning_rate: float
+
+
+@dataclass
+class BagPredictionRecord:
+    bag_id: str
+    true_label: int
+    true_label_name: str
+    predicted_label: int
+    predicted_label_name: str
+    positive_score: float
+    correct: bool
+    source_buckets: str
+    instance_count: int
+    dominant_channel: str
+    dominant_magnification: str
+
+
+@dataclass
+class SourceBucketErrorRecord:
+    source_bucket: str
+    bag_count: int
+    error_count: int
+    false_positive_count: int
+    false_negative_count: int
+    accuracy: float
 
 
 def build_transforms(
@@ -273,6 +302,101 @@ def evaluate_model(
     return metrics, predictions
 
 
+def aggregate_predictions_to_bags(
+    predictions: list[PredictionRecord],
+    record_lookup: dict[str, object],
+) -> tuple[EvaluationMetrics, list[BagPredictionRecord], list[SourceBucketErrorRecord]]:
+    bag_groups: dict[str, list[PredictionRecord]] = defaultdict(list)
+    for prediction in predictions:
+        record = record_lookup[prediction.image_path]
+        prediction.bag_id = getattr(record, "lesion_id")
+        prediction.source_bucket = getattr(record, "source_bucket")
+        prediction.label_name = getattr(record, "label_name")
+        prediction.sample_type = getattr(record, "sample_type")
+        bag_groups[prediction.bag_id].append(prediction)
+
+    bag_predictions: list[BagPredictionRecord] = []
+    true_labels: list[int] = []
+    predicted_labels: list[int] = []
+    positive_scores: list[float] = []
+
+    for bag_id, bag_items in sorted(bag_groups.items()):
+        first_record = record_lookup[bag_items[0].image_path]
+        mean_positive_score = float(
+            sum(item.positive_score for item in bag_items) / len(bag_items)
+        )
+        predicted_label = 1 if mean_positive_score >= 0.5 else 0
+        true_label = int(getattr(first_record, "label_index"))
+        channel_counts = Counter(
+            getattr(record_lookup[item.image_path], "channel_name") for item in bag_items
+        )
+        magnification_counts = Counter(
+            getattr(record_lookup[item.image_path], "magnification") for item in bag_items
+        )
+        source_buckets = sorted(
+            {getattr(record_lookup[item.image_path], "source_bucket") for item in bag_items}
+        )
+        bag_predictions.append(
+            BagPredictionRecord(
+                bag_id=bag_id,
+                true_label=true_label,
+                true_label_name=getattr(first_record, "label_name"),
+                predicted_label=predicted_label,
+                predicted_label_name="PanIN" if predicted_label == 1 else "ADM",
+                positive_score=mean_positive_score,
+                correct=predicted_label == true_label,
+                source_buckets="|".join(source_buckets),
+                instance_count=len(bag_items),
+                dominant_channel=channel_counts.most_common(1)[0][0],
+                dominant_magnification=magnification_counts.most_common(1)[0][0],
+            )
+        )
+        true_labels.append(true_label)
+        predicted_labels.append(predicted_label)
+        positive_scores.append(mean_positive_score)
+
+    tn, fp, fn, tp = confusion_matrix(true_labels, predicted_labels, labels=[0, 1]).ravel()
+    bag_metrics = EvaluationMetrics(
+        accuracy=float(accuracy_score(true_labels, predicted_labels)),
+        sensitivity=float(tp / (tp + fn) if (tp + fn) else 0.0),
+        specificity=float(tn / (tn + fp) if (tn + fp) else 0.0),
+        roc_auc=float(
+            roc_auc_score(true_labels, positive_scores)
+            if len(set(true_labels)) > 1
+            else float("nan")
+        ),
+        true_negative=int(tn),
+        false_positive=int(fp),
+        false_negative=int(fn),
+        true_positive=int(tp),
+    )
+
+    bucket_error_rows: list[SourceBucketErrorRecord] = []
+    bucket_groups: dict[str, list[BagPredictionRecord]] = defaultdict(list)
+    for row in bag_predictions:
+        for source_bucket in row.source_buckets.split("|"):
+            bucket_groups[source_bucket].append(row)
+    for source_bucket, rows in sorted(bucket_groups.items()):
+        fp_count = sum(
+            row.true_label == 0 and row.predicted_label == 1 for row in rows
+        )
+        fn_count = sum(
+            row.true_label == 1 and row.predicted_label == 0 for row in rows
+        )
+        error_count = sum(not row.correct for row in rows)
+        bucket_error_rows.append(
+            SourceBucketErrorRecord(
+                source_bucket=source_bucket,
+                bag_count=len(rows),
+                error_count=error_count,
+                false_positive_count=fp_count,
+                false_negative_count=fn_count,
+                accuracy=float(sum(row.correct for row in rows) / len(rows)),
+            )
+        )
+    return bag_metrics, bag_predictions, bucket_error_rows
+
+
 def save_metrics(metrics: EvaluationMetrics, output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(asdict(metrics), indent=2), encoding="utf-8")
@@ -287,6 +411,28 @@ def save_predictions(predictions: list[PredictionRecord], output_path: Path) -> 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
         json.dumps([asdict(item) for item in predictions], indent=2),
+        encoding="utf-8",
+    )
+
+
+def save_bag_predictions(
+    predictions: list[BagPredictionRecord],
+    output_path: Path,
+) -> None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps([asdict(item) for item in predictions], indent=2),
+        encoding="utf-8",
+    )
+
+
+def save_source_bucket_errors(
+    rows: list[SourceBucketErrorRecord],
+    output_path: Path,
+) -> None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps([asdict(item) for item in rows], indent=2),
         encoding="utf-8",
     )
 
