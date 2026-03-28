@@ -1,0 +1,89 @@
+{
+  "formal_scope_source_buckets": [
+    "caerulein_adm",
+    "KC",
+    "KPC",
+    "multichannel_adm",
+    "multichannel_kc_adm"
+  ],
+  "counts": {
+    "bag_count": 35,
+    "instance_count": 80,
+    "roi_instance_count": 27,
+    "review_candidate_count": 45
+  },
+  "label_distribution": {
+    "bags": {
+      "ADM": 14,
+      "PanIN": 21
+    },
+    "instances": {
+      "ADM": 30,
+      "PanIN": 50
+    }
+  },
+  "source_bucket_distribution": {
+    "bags": {
+      "KC": 15,
+      "KPC": 6,
+      "caerulein_adm": 12,
+      "multichannel_adm": 1,
+      "multichannel_kc_adm": 2
+    },
+    "instances": {
+      "KC": 42,
+      "KPC": 8,
+      "caerulein_adm": 12,
+      "multichannel_adm": 9,
+      "multichannel_kc_adm": 9
+    }
+  },
+  "view_count_distribution": {
+    "1": 27,
+    "3": 1,
+    "4": 2,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "12": 2
+  },
+  "quality_flags": {
+    "missing_magnification": 31,
+    "mixed_source_bucket": 1,
+    "single_view_bag": 27
+  },
+  "magnification_counts": {
+    "10x": 6,
+    "20x": 6,
+    "40x": 8,
+    "unknown": 33
+  },
+  "channel_counts": {
+    "amylase": 7,
+    "ck19": 7,
+    "merge": 8,
+    "single": 31
+  },
+  "coverage_matrix": {
+    "10x": {
+      "amylase": 2,
+      "ck19": 2,
+      "merge": 2
+    },
+    "20x": {
+      "amylase": 2,
+      "ck19": 2,
+      "merge": 2
+    },
+    "40x": {
+      "amylase": 2,
+      "ck19": 2,
+      "merge": 4
+    },
+    "unknown": {
+      "amylase": 1,
+      "ck19": 1,
+      "single": 31
+    }
+  }
+}

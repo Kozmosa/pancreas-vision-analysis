@@ -11,4 +11,9 @@ __pycache__/
 .ruff_cache/
 
 # Generated experiment outputs
-artifacts/
+artifacts/*
+!artifacts/bag_protocol_v1/
+artifacts/bag_protocol_v1/*
+!artifacts/bag_protocol_v1/*.csv
+!artifacts/bag_protocol_v1/*.json
+!artifacts/bag_protocol_v1/*.md

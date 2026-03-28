@@ -1,0 +1,46 @@
+bag_id,label_name,source_buckets,instance_count,review_flags,example_paths,notes
+LESION_CAER_RAW_001,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/1.tif,
+LESION_CAER_RAW_002,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/2.tif,
+LESION_CAER_RAW_003,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/3.tif,
+LESION_CAER_RAW_004,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/4.tif,
+LESION_CAER_RAW_005,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/5.tif,
+LESION_CAER_RAW_006,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/6.tif,
+LESION_CAER_RAW_007,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/7.tif,
+LESION_CAER_RAW_008,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/8.tif,
+LESION_CAER_RAW_009,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/9.tif,
+LESION_CAER_RAW_010,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/10.tif,
+LESION_CAER_RAW_011,ADM,caerulein_adm,1,missing_magnification|single_view_bag,data/caerulein_adm/11.tif,
+LESION_CAER_RAW_012,ADM,caerulein_adm,1,single_view_bag,data/caerulein_adm/40x-merge.tif,
+LESION_CS_A,ADM,multichannel_unresolved,9,needs_manual_check|unresolved_bucket_excluded,data/multichannel_unresolved/amylase-10x.tif | data/multichannel_unresolved/amylase-20x.tif | data/multichannel_unresolved/amylase-40x.tif,base subgroup; merge image without explicit magnification; structured solved base subgroup
+LESION_CS_B,ADM,multichannel_unresolved,9,unresolved_bucket_excluded,data/multichannel_unresolved/amylase-10x-1.tif | data/multichannel_unresolved/amylase-20x-1.tif | data/multichannel_unresolved/amylase-40x-1.tif,structured solved subgroup 1
+LESION_CS_C,ADM,multichannel_unresolved,9,unresolved_bucket_excluded,data/multichannel_unresolved/amylase-10x-2.tif | data/multichannel_unresolved/amylase-20x-2.tif | data/multichannel_unresolved/amylase-40x-2.tif,structured solved subgroup 2
+LESION_CS_RAW_004,UNRESOLVED,multichannel_unresolved,1,excluded_from_train|needs_manual_check|unresolved_bucket_excluded,data/multichannel_unresolved/4.tif,numeric file in solved folder; likely export or auxiliary image; manual review needed
+LESION_CS_RAW_005,UNRESOLVED,multichannel_unresolved,1,excluded_from_train|needs_manual_check|unresolved_bucket_excluded,data/multichannel_unresolved/5.tif,numeric file in solved folder; likely export or auxiliary image; manual review needed
+LESION_CS_RAW_006,UNRESOLVED,multichannel_unresolved,1,excluded_from_train|needs_manual_check|unresolved_bucket_excluded,data/multichannel_unresolved/6.tif,numeric file in solved folder; likely export or auxiliary image; manual review needed
+LESION_CS_RAW_007,UNRESOLVED,multichannel_unresolved,1,excluded_from_train|needs_manual_check|unresolved_bucket_excluded,data/multichannel_unresolved/7.tif,numeric file in solved folder; likely export or auxiliary image; manual review needed
+LESION_CS_RAW_008,UNRESOLVED,multichannel_unresolved,1,excluded_from_train|needs_manual_check|unresolved_bucket_excluded,data/multichannel_unresolved/8.tif,numeric file in solved folder; likely export or auxiliary image; manual review needed
+LESION_CS_RAW_009,UNRESOLVED,multichannel_unresolved,1,excluded_from_train|needs_manual_check|unresolved_bucket_excluded,data/multichannel_unresolved/9.tif,numeric file in solved folder; likely export or auxiliary image; manual review needed
+LESION_CS_RAW_010,UNRESOLVED,multichannel_unresolved,1,excluded_from_train|needs_manual_check|unresolved_bucket_excluded,data/multichannel_unresolved/10.tif,numeric file in solved folder; likely export or auxiliary image; manual review needed
+LESION_CS_RAW_011,UNRESOLVED,multichannel_unresolved,1,excluded_from_train|needs_manual_check|unresolved_bucket_excluded,data/multichannel_unresolved/11.tif,numeric file in solved folder; likely export or auxiliary image; manual review needed
+LESION_KC_RAW_001,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/1.tif,
+LESION_KC_RAW_002,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/2.tif,
+LESION_KC_RAW_003,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/3.tif,
+LESION_KC_RAW_004,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/4.tif,
+LESION_KC_RAW_005,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/5.tif,
+LESION_KC_RAW_006,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/6.tif,
+LESION_KC_RAW_007,PanIN,KC,12,missing_magnification,data/KC/7.tif,
+LESION_KC_RAW_008,PanIN,KC,4,missing_magnification,data/KC/8.tif,
+LESION_KC_RAW_009,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/9.tif,
+LESION_KC_RAW_010,PanIN,KC,4,missing_magnification,data/KC/10.tif,
+LESION_KC_RAW_011,PanIN,KC,5,missing_magnification,data/KC/11.tif,
+LESION_KC_RAW_012,PanIN,KC,7,missing_magnification,data/KC/12.tif,
+LESION_KC_RAW_013,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/13.tif,
+LESION_KC_RAW_014,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/14.tif,
+LESION_KC_RAW_015,PanIN,KC,1,missing_magnification|single_view_bag,data/KC/15.tif,
+LESION_KPC_001,PanIN,KPC,3,missing_magnification,data/KPC/1-amylase.tif | data/KPC/1-ck-19.tif | data/KPC/1.tif,
+LESION_KPC_RAW_002,PanIN,KPC,1,missing_magnification|single_view_bag,data/KPC/2.tif,
+LESION_KPC_RAW_003,PanIN,KPC,1,missing_magnification|single_view_bag,data/KPC/3.tif,
+LESION_KPC_RAW_004,PanIN,KPC,1,missing_magnification|single_view_bag,data/KPC/4.tif,
+LESION_KPC_RAW_005,PanIN,KPC,1,missing_magnification|single_view_bag,data/KPC/5.tif,
+LESION_KPC_RAW_M001,PanIN,KPC,1,filename_bucket_conflict|single_view_bag,data/KPC/KC-40x-merge.tif,
+LESION_MC_001,ADM,multichannel_adm|multichannel_kc_adm,12,duplicate_view_slot|mixed_source_bucket,data/multichannel_adm/10x-merge.tif | data/multichannel_adm/20x-merge.tif | data/multichannel_adm/40x-merge.tif,
