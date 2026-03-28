@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import time
+from collections import Counter
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -9,7 +10,7 @@ import numpy as np
 import torch
 from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score
 from torch import nn
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, WeightedRandomSampler
 from torchvision import models, transforms
 
 from pancreas_vision.data import MicroscopyDataset
@@ -45,6 +46,7 @@ class TrainingHistory:
     epoch: int
     train_loss: float
     train_accuracy: float
+    learning_rate: float
 
 
 def build_transforms(
@@ -71,13 +73,42 @@ def build_transforms(
 
 
 def build_model(num_classes: int = 2, freeze_backbone: bool = False) -> nn.Module:
-    weights = models.ResNet18_Weights.DEFAULT
-    model = models.resnet18(weights=weights)
+    return build_model_with_backbone(
+        backbone_name="resnet18",
+        num_classes=num_classes,
+        freeze_backbone=freeze_backbone,
+        dropout=0.0,
+    )
+
+
+def build_model_with_backbone(
+    backbone_name: str,
+    num_classes: int = 2,
+    freeze_backbone: bool = False,
+    dropout: float = 0.0,
+) -> nn.Module:
+    backbone_name = backbone_name.lower()
+    if backbone_name == "resnet18":
+        model = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
+        classifier_attr = "fc"
+        classifier_in_features = model.fc.in_features
+    elif backbone_name == "resnet34":
+        model = models.resnet34(weights=models.ResNet34_Weights.DEFAULT)
+        classifier_attr = "fc"
+        classifier_in_features = model.fc.in_features
+    else:
+        raise ValueError(f"Unsupported backbone: {backbone_name}")
+
     if freeze_backbone:
         for name, parameter in model.named_parameters():
-            if not name.startswith("fc."):
+            if not name.startswith(f"{classifier_attr}."):
                 parameter.requires_grad = False
-    model.fc = nn.Linear(model.fc.in_features, num_classes)
+
+    classifier_layers: list[nn.Module] = []
+    if dropout > 0:
+        classifier_layers.append(nn.Dropout(p=dropout))
+    classifier_layers.append(nn.Linear(classifier_in_features, num_classes))
+    setattr(model, classifier_attr, nn.Sequential(*classifier_layers))
     return model
 
 
@@ -87,14 +118,29 @@ def create_dataloaders(
     image_size: int,
     batch_size: int,
     num_workers: int,
+    use_weighted_sampler: bool = False,
 ) -> tuple[DataLoader, DataLoader]:
     train_transform, eval_transform = build_transforms(image_size=image_size)
     train_dataset = MicroscopyDataset(train_records, transform=train_transform)
     test_dataset = MicroscopyDataset(test_records, transform=eval_transform)
+    sampler = None
+    shuffle = True
+    if use_weighted_sampler:
+        label_counts = Counter(record.label_index for record in train_records)
+        sample_weights = [
+            1.0 / label_counts[record.label_index] for record in train_records
+        ]
+        sampler = WeightedRandomSampler(
+            weights=sample_weights,
+            num_samples=len(sample_weights),
+            replacement=True,
+        )
+        shuffle = False
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
-        shuffle=True,
+        shuffle=shuffle,
+        sampler=sampler,
         num_workers=num_workers,
     )
     test_loader = DataLoader(
@@ -112,12 +158,19 @@ def train_model(
     device: torch.device,
     epochs: int,
     learning_rate: float,
+    weight_decay: float = 0.0,
+    label_smoothing: float = 0.0,
     output_path: Path | None = None,
 ) -> list[TrainingHistory]:
-    criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(
+    criterion = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
+    optimizer = torch.optim.AdamW(
         [parameter for parameter in model.parameters() if parameter.requires_grad],
         lr=learning_rate,
+        weight_decay=weight_decay,
+    )
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+        optimizer,
+        T_max=max(epochs, 1),
     )
     model.to(device)
     history: list[TrainingHistory] = []
@@ -146,8 +199,10 @@ def train_model(
                 epoch=epoch,
                 train_loss=running_loss / max(total_examples, 1),
                 train_accuracy=total_correct / max(total_examples, 1),
+                learning_rate=float(optimizer.param_groups[0]["lr"]),
             )
         )
+        scheduler.step()
 
     if output_path is not None:
         output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -187,7 +242,11 @@ def evaluate_model(
     accuracy = accuracy_score(true_labels, predicted_labels)
     sensitivity = tp / (tp + fn) if (tp + fn) else 0.0
     specificity = tn / (tn + fp) if (tn + fp) else 0.0
-    roc_auc = roc_auc_score(true_labels, positive_scores)
+    roc_auc = (
+        roc_auc_score(true_labels, positive_scores)
+        if len(set(true_labels)) > 1
+        else float("nan")
+    )
 
     metrics = EvaluationMetrics(
         accuracy=float(accuracy),
