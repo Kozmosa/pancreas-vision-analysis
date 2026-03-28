@@ -1,0 +1,72 @@
+{
+  "seed": 42,
+  "test_size": 0.3,
+  "n_splits": 5,
+  "formal_bag_count": 35,
+  "label_distribution": {
+    "ADM": 14,
+    "PanIN": 21
+  },
+  "main_split_counts": {
+    "test": {
+      "ADM": 4,
+      "PanIN": 7
+    },
+    "train": {
+      "ADM": 10,
+      "PanIN": 14
+    }
+  },
+  "fold_counts": {
+    "0": {
+      "test": {
+        "ADM": 3,
+        "PanIN": 4
+      },
+      "train": {
+        "ADM": 11,
+        "PanIN": 17
+      }
+    },
+    "1": {
+      "test": {
+        "ADM": 3,
+        "PanIN": 4
+      },
+      "train": {
+        "ADM": 11,
+        "PanIN": 17
+      }
+    },
+    "2": {
+      "test": {
+        "ADM": 3,
+        "PanIN": 4
+      },
+      "train": {
+        "ADM": 11,
+        "PanIN": 17
+      }
+    },
+    "3": {
+      "test": {
+        "ADM": 3,
+        "PanIN": 4
+      },
+      "train": {
+        "ADM": 11,
+        "PanIN": 17
+      }
+    },
+    "4": {
+      "test": {
+        "ADM": 2,
+        "PanIN": 5
+      },
+      "train": {
+        "ADM": 12,
+        "PanIN": 16
+      }
+    }
+  }
+}

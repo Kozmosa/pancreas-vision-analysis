@@ -1,0 +1,42 @@
+{
+  "evaluation_protocol_version": "split_eval_v1",
+  "required_outputs": [
+    "bag_level_metrics",
+    "bag_level_predictions",
+    "error_by_source_bucket"
+  ],
+  "bag_level_metrics": {
+    "accuracy": 0.0,
+    "sensitivity": 0.0,
+    "specificity": 0.0,
+    "roc_auc": 0.0,
+    "true_negative": 0,
+    "false_positive": 0,
+    "false_negative": 0,
+    "true_positive": 0
+  },
+  "bag_level_predictions_columns": [
+    "bag_id",
+    "true_label_name",
+    "predicted_label_name",
+    "positive_score",
+    "correct",
+    "source_buckets",
+    "instance_count",
+    "dominant_channel",
+    "dominant_magnification"
+  ],
+  "error_by_source_bucket_columns": [
+    "source_bucket",
+    "bag_count",
+    "error_count",
+    "false_positive_count",
+    "false_negative_count",
+    "accuracy"
+  ],
+  "aggregation_defaults": {
+    "prediction_unit": "bag",
+    "instance_to_bag_score_reducer": "mean_positive_score",
+    "positive_class_name": "PanIN"
+  }
+}

@@ -17,3 +17,8 @@ artifacts/bag_protocol_v1/*
 !artifacts/bag_protocol_v1/*.csv
 !artifacts/bag_protocol_v1/*.json
 !artifacts/bag_protocol_v1/*.md
+!artifacts/split_protocol_v1/
+artifacts/split_protocol_v1/*
+!artifacts/split_protocol_v1/*.csv
+!artifacts/split_protocol_v1/*.json
+!artifacts/split_protocol_v1/*.md
