@@ -1,0 +1,15 @@
+Cell Image Metadata Workbook,,,,,
+Updated after user pathology clarification on 2026-03-23. KC folder rows were relabeled using the new folder-level prior; KPC rows remain mostly file-level uncertain but now carry explicit pathology priors.,,,,,
+,,,,,
+KPI,Value,,source_folder,rows,trainable_rows
+Total records,88,,caerulein,12,0
+Ready for training,45,,caerulein solved,35,27
+Needs manual check,44,,kc,15,0
+Caerulein records,59,,KPC,8,0
+KC records,21,,many colour,18,18
+KPC records,8,,,,
+ADM-like rows,45,,,,
+PanIN-like rows,15,,,,
+Uncertain rows,28,,,,
+,,,,,
+"Working rule: keep explicit file-level labels when filenames are specific (for example, *adm*). Use folder-level pathology priors as weak supervision only, not as a replacement for image review.",,,,,
