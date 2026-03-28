@@ -23,6 +23,7 @@ Useful commands in the current repo:
 - `python3 src/train_baseline.py --help`
 - `python3 src/train_improved.py --help`
 - `PYTHONPATH=src python3 src/build_bag_protocol.py --help`
+- `PYTHONPATH=src python3 src/build_split_protocol.py --help`
 
 If setup or test tooling is added later, replace this section with the real environment setup, build, lint, and single-test commands.
 
@@ -36,6 +37,7 @@ If setup or test tooling is added later, replace this section with the real envi
 - `data/2.csv` for current metadata-backed training resolution
 - `data/KC/*.json` for current ROI polygon annotations
 - `artifacts/bag_protocol_v1/` for the current lesion-level bag protocol outputs
+- `artifacts/split_protocol_v1/` for the current lesion-level split and evaluation protocol outputs
 
 ## Current project objective
 

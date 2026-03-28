@@ -68,6 +68,7 @@ Use that fact explicitly rather than guessing.
 - `python3 src/train_baseline.py --help`: inspect baseline training CLI.
 - `python3 src/train_improved.py --help`: inspect improved training CLI.
 - `PYTHONPATH=src python3 src/build_bag_protocol.py --help`: inspect the lesion-level bag protocol builder.
+- `PYTHONPATH=src python3 src/build_split_protocol.py --help`: inspect the lesion-level split protocol builder.
 - `ls data docs src artifacts`: inspect main project content.
 
 ### Build
@@ -85,6 +86,7 @@ Use that fact explicitly rather than guessing.
 - No automated test suite exists yet.
 - Use targeted smoke runs of the training entrypoints when verification is needed.
 - For data-protocol work, use targeted smoke runs such as `PYTHONPATH=src python3 src/build_bag_protocol.py`.
+- For split-protocol work, use targeted smoke runs such as `PYTHONPATH=src python3 src/build_split_protocol.py`.
 
 ### Single Test
 
