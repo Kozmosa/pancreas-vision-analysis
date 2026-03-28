@@ -1,3 +1,5 @@
+"""Split protocol construction: train/test splits and cross-validation folds."""
+
 from __future__ import annotations
 
 import csv
@@ -9,7 +11,7 @@ from typing import Iterable
 
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
 
-from pancreas_vision.training import EvaluationMetrics
+from pancreas_vision.types import EvaluationMetrics
 
 
 @dataclass(frozen=True)

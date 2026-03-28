@@ -1,9 +1,11 @@
+"""Build lesion-level bag manifests, QC summary, and manual review candidates."""
+
 from __future__ import annotations
 
 import argparse
 from pathlib import Path
 
-from pancreas_vision.bag_protocol import build_protocol_artifacts, write_protocol_outputs
+from pancreas_vision.protocols.bag_protocol import build_protocol_artifacts, write_protocol_outputs
 
 
 def parse_args() -> argparse.Namespace:

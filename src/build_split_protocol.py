@@ -1,9 +1,11 @@
+"""Build the fixed lesion-level train/test split, grouped 5-fold CV, and shared evaluation template."""
+
 from __future__ import annotations
 
 import argparse
 from pathlib import Path
 
-from pancreas_vision.split_protocol import (
+from pancreas_vision.protocols.split_protocol import (
     build_evaluation_template,
     build_grouped_folds,
     build_split_summary,

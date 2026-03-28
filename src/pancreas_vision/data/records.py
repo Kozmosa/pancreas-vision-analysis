@@ -1,19 +1,15 @@
+"""Data discovery, metadata parsing, ROI cropping, and record construction."""
+
 from __future__ import annotations
 
 import csv
 import json
-import random
 import re
 from collections import defaultdict
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-try:
-    from torch.utils.data import Dataset
-except ImportError:  # pragma: no cover - keeps metadata tools usable in light envs
-    class Dataset:  # type: ignore[no-redef]
-        pass
+from pancreas_vision.types import ImageRecord
 
 
 AUTHORITATIVE_LABELS = {
@@ -31,31 +27,6 @@ LEGACY_SOURCE_BUCKETS = {
     "kc": "KC",
     "kpc": "KPC",
 }
-
-
-@dataclass(frozen=True)
-class ImageRecord:
-    image_path: Path
-    source_bucket: str
-    label_name: str
-    label_index: int
-    lesion_id: str
-    group_id: str
-    magnification: str
-    channel_name: str
-    sample_type: str = "whole_image"
-    crop_box: tuple[int, int, int, int] | None = None
-    label_source: str = "folder_label"
-
-    @property
-    def record_key(self) -> str:
-        if self.crop_box is None:
-            return self.image_path.as_posix()
-        left, top, right, bottom = self.crop_box
-        return (
-            f"{self.image_path.as_posix()}#crop={left},{top},{right},{bottom}"
-            f"#type={self.sample_type}"
-        )
 
 
 def infer_magnification(image_path: Path) -> str:
@@ -362,168 +333,3 @@ def discover_records(
     if not records:
         raise ValueError(f"No image records discovered under {data_root}")
     return records
-
-
-def split_grouped_records(
-    records: list[ImageRecord],
-    test_size: float,
-    random_seed: int,
-) -> tuple[list[ImageRecord], list[ImageRecord]]:
-    grouped_records: dict[str, list[ImageRecord]] = defaultdict(list)
-    for record in records:
-        grouped_records[record.group_id].append(record)
-
-    if len(grouped_records) < 4:
-        raise ValueError("Need at least 4 record groups to produce a grouped split")
-
-    rng = random.Random(random_seed)
-    label_to_group_items: dict[int, list[tuple[str, list[ImageRecord]]]] = defaultdict(list)
-    for group_id, group_records in grouped_records.items():
-        label = group_records[0].label_index
-        label_to_group_items[label].append((group_id, group_records))
-
-    selected_test_groups: set[str] = set()
-    for label_index, group_items in label_to_group_items.items():
-        total_count = sum(len(group_records) for _, group_records in group_items)
-        target_count = max(1, int(round(total_count * test_size)))
-        target_group_count = max(1, int(round(len(group_items) * test_size)))
-        ordered_items = sorted(
-            group_items,
-            key=lambda item: (rng.random(), len(item[1])),
-        )
-        selected_for_label: list[str] = []
-        selected_count = 0
-
-        while ordered_items and (
-            selected_count < target_count or len(selected_for_label) < target_group_count
-        ):
-            best_idx = min(
-                range(len(ordered_items)),
-                key=lambda idx: (
-                    abs(target_count - (selected_count + len(ordered_items[idx][1]))),
-                    abs(target_group_count - (len(selected_for_label) + 1)),
-                    len(ordered_items[idx][1]),
-                ),
-            )
-            group_id, group_records = ordered_items.pop(best_idx)
-            selected_for_label.append(group_id)
-            selected_count += len(group_records)
-
-        if len(selected_for_label) == len(group_items) and len(group_items) > 1:
-            smallest_group_id = min(
-                selected_for_label,
-                key=lambda gid: len(grouped_records[gid]),
-            )
-            selected_for_label.remove(smallest_group_id)
-        selected_test_groups.update(selected_for_label)
-
-    train_records = [
-        record for record in records if record.group_id not in selected_test_groups
-    ]
-    test_records = [
-        record for record in records if record.group_id in selected_test_groups
-    ]
-    if not train_records or not test_records:
-        raise ValueError("Grouped split produced an empty train or test partition")
-    return train_records, test_records
-
-
-def split_records(
-    records: list[ImageRecord],
-    test_size: float = 0.3,
-    random_seed: int = 42,
-    group_aware: bool = False,
-) -> tuple[list[ImageRecord], list[ImageRecord]]:
-    """Create a reproducible split, optionally keeping lesion/image groups together."""
-    if len(records) < 4:
-        raise ValueError("Need at least 4 images to produce a train/test split")
-
-    if group_aware:
-        return split_grouped_records(
-            records=records,
-            test_size=test_size,
-            random_seed=random_seed,
-        )
-
-    rng = random.Random(random_seed)
-    label_to_indices: dict[int, list[int]] = defaultdict(list)
-    for index, record in enumerate(records):
-        label_to_indices[record.label_index].append(index)
-
-    test_indices: set[int] = set()
-    for indices in label_to_indices.values():
-        shuffled = indices[:]
-        rng.shuffle(shuffled)
-        target_count = max(1, int(round(len(shuffled) * test_size)))
-        test_indices.update(shuffled[:target_count])
-
-    train_records = [
-        record for index, record in enumerate(records) if index not in test_indices
-    ]
-    test_records = [
-        record for index, record in enumerate(records) if index in test_indices
-    ]
-    return train_records, test_records
-
-
-def write_manifest(records: Iterable[ImageRecord], output_path: Path) -> None:
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    with output_path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(
-            handle,
-            fieldnames=[
-                "record_key",
-                "image_path",
-                "source_bucket",
-                "label_name",
-                "label_index",
-                "lesion_id",
-                "group_id",
-                "magnification",
-                "channel_name",
-                "sample_type",
-                "crop_box",
-                "label_source",
-            ],
-        )
-        writer.writeheader()
-        for record in records:
-            writer.writerow(
-                {
-                    "record_key": record.record_key,
-                    "image_path": record.image_path.as_posix(),
-                    "source_bucket": record.source_bucket,
-                    "label_name": record.label_name,
-                    "label_index": record.label_index,
-                    "lesion_id": record.lesion_id,
-                    "group_id": record.group_id,
-                    "magnification": record.magnification,
-                    "channel_name": record.channel_name,
-                    "sample_type": record.sample_type,
-                    "crop_box": (
-                        "" if record.crop_box is None else ",".join(str(v) for v in record.crop_box)
-                    ),
-                    "label_source": record.label_source,
-                }
-            )
-
-
-class MicroscopyDataset(Dataset):
-    def __init__(self, records: list[ImageRecord], transform=None):
-        self.records = records
-        self.transform = transform
-
-    def __len__(self) -> int:
-        return len(self.records)
-
-    def __getitem__(self, index: int):
-        from PIL import Image
-
-        record = self.records[index]
-        with Image.open(record.image_path) as image:
-            image = image.convert("RGB")
-            if record.crop_box is not None:
-                image = image.crop(record.crop_box)
-        if self.transform is not None:
-            image = self.transform(image)
-        return image, record.label_index, record.record_key

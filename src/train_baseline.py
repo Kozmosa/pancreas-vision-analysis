@@ -1,28 +1,14 @@
+"""Train a minimal ADM-vs-PanIN image-level baseline on current repo data."""
+
 from __future__ import annotations
 
 import argparse
+import csv
 from collections import Counter
 from pathlib import Path
-import time
-import csv
 
-import torch
-
-from pancreas_vision.data import discover_records, split_records, write_manifest
-from pancreas_vision.training import (
-    aggregate_predictions_to_bags,
-    build_model,
-    create_dataloaders,
-    evaluate_model,
-    now_timestamp,
-    save_bag_predictions,
-    save_metrics,
-    save_predictions,
-    save_experiment_summary,
-    save_source_bucket_errors,
-    set_random_seed,
-    train_model,
-)
+from pancreas_vision.data import discover_records, split_records
+from experiment_runner import load_split_csv, run_experiment
 
 
 def parse_args() -> argparse.Namespace:
@@ -65,8 +51,6 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    start_time = time.time()
-    set_random_seed(args.seed)
 
     records = discover_records(
         args.data_root,
@@ -75,6 +59,7 @@ def main() -> None:
         metadata_csv=args.metadata_csv,
     )
     records = [record for record in records if record.sample_type == "whole_image"]
+
     if args.split_csv is None:
         train_records, test_records = split_records(
             records,
@@ -82,10 +67,7 @@ def main() -> None:
             random_seed=args.seed,
         )
     else:
-        split_lookup: dict[str, str] = {}
-        with args.split_csv.open("r", newline="", encoding="utf-8") as handle:
-            for row in csv.DictReader(handle):
-                split_lookup[row["bag_id"]] = row["split_role"]
+        split_lookup = load_split_csv(args.split_csv)
         filtered_records = [record for record in records if record.lesion_id in split_lookup]
         train_records = [
             record for record in filtered_records if split_lookup[record.lesion_id] == "train"
@@ -94,92 +76,43 @@ def main() -> None:
             record for record in filtered_records if split_lookup[record.lesion_id] == "test"
         ]
 
-    output_dir = args.output_dir
-    output_dir.mkdir(parents=True, exist_ok=True)
-    write_manifest(train_records, output_dir / "train_manifest.csv")
-    write_manifest(test_records, output_dir / "test_manifest.csv")
-
-    print("Discovered records:", len(records))
-    print("Train label counts:", Counter(record.label_name for record in train_records))
-    print("Test label counts:", Counter(record.label_name for record in test_records))
-
-    train_loader, test_loader = create_dataloaders(
+    run_experiment(
         train_records=train_records,
         test_records=test_records,
-        image_size=args.image_size,
-        batch_size=args.batch_size,
-        num_workers=args.num_workers,
-    )
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = build_model(freeze_backbone=args.freeze_backbone)
-    history = train_model(
-        model=model,
-        train_loader=train_loader,
-        device=device,
+        output_dir=args.output_dir,
+        model_name="resnet18",
+        model_kwargs={"freeze_backbone": args.freeze_backbone},
         epochs=args.epochs,
+        batch_size=args.batch_size,
+        image_size=args.image_size,
         learning_rate=args.learning_rate,
-        output_path=output_dir / "history.json",
-    )
-
-    metrics, predictions = evaluate_model(
-        model=model,
-        data_loader=test_loader,
-        device=device,
-    )
-    record_lookup = {record.image_path.as_posix(): record for record in test_records}
-    bag_metrics, bag_predictions, source_bucket_errors = aggregate_predictions_to_bags(
-        predictions=predictions,
-        record_lookup=record_lookup,
-    )
-    save_metrics(metrics, output_dir / "metrics.json")
-    save_predictions(predictions, output_dir / "predictions.json")
-    save_metrics(bag_metrics, output_dir / "bag_metrics.json")
-    save_bag_predictions(bag_predictions, output_dir / "bag_predictions.json")
-    save_source_bucket_errors(
-        source_bucket_errors, output_dir / "error_by_source_bucket.json"
-    )
-    duration_seconds = time.time() - start_time
-    summary = {
-        "started_at": now_timestamp(),
-        "duration_seconds": duration_seconds,
-        "device": str(device),
-        "cuda_device_count": torch.cuda.device_count(),
-        "arguments": {
-            "data_root": args.data_root.as_posix(),
-            "output_dir": args.output_dir.as_posix(),
-            "metadata_csv": args.metadata_csv.as_posix(),
-            "epochs": args.epochs,
-            "batch_size": args.batch_size,
-            "image_size": args.image_size,
-            "learning_rate": args.learning_rate,
-            "test_size": args.test_size,
-            "seed": args.seed,
-            "num_workers": args.num_workers,
-            "split_csv": None if args.split_csv is None else args.split_csv.as_posix(),
-            "include_multichannel": args.include_multichannel,
-            "exclude_kpc": args.exclude_kpc,
-            "freeze_backbone": args.freeze_backbone,
+        seed=args.seed,
+        num_workers=args.num_workers,
+        compute_bag_metrics=True,
+        extra_summary={
+            "arguments": {
+                "data_root": args.data_root.as_posix(),
+                "output_dir": args.output_dir.as_posix(),
+                "metadata_csv": args.metadata_csv.as_posix(),
+                "epochs": args.epochs,
+                "batch_size": args.batch_size,
+                "image_size": args.image_size,
+                "learning_rate": args.learning_rate,
+                "test_size": args.test_size,
+                "seed": args.seed,
+                "num_workers": args.num_workers,
+                "split_csv": None if args.split_csv is None else args.split_csv.as_posix(),
+                "include_multichannel": args.include_multichannel,
+                "exclude_kpc": args.exclude_kpc,
+                "freeze_backbone": args.freeze_backbone,
+            },
+            "record_counts": {
+                "total": len(records),
+                "train": len(train_records),
+                "test": len(test_records),
+            },
         },
-        "record_counts": {
-            "total": len(records),
-            "train": len(train_records),
-            "test": len(test_records),
-        },
-        "label_counts": {
-            "train": dict(Counter(record.label_name for record in train_records)),
-            "test": dict(Counter(record.label_name for record in test_records)),
-        },
-        "metrics": metrics.__dict__,
-        "bag_level_metrics": bag_metrics.__dict__,
-        "num_prediction_records": len(predictions),
-        "num_bag_prediction_records": len(bag_predictions),
-        "history": [item.__dict__ for item in history],
-    }
-    save_experiment_summary(summary, output_dir / "experiment_summary.json")
-
-    print("Metrics saved to", (output_dir / "metrics.json").as_posix())
-    print(metrics)
+    )
 
 
 if __name__ == "__main__":

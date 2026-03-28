@@ -1,3 +1,5 @@
+"""Bag protocol construction: grouping images into lesion-level bags with QC flags."""
+
 from __future__ import annotations
 
 import csv

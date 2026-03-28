@@ -1,11 +1,13 @@
+"""Train an improved ADM-vs-PanIN classifier using current folders, metadata, and optional ROI crops."""
+
 from __future__ import annotations
 
 import argparse
 from collections import Counter
 from pathlib import Path
-import time
 
-from pancreas_vision.data import discover_records, split_records, write_manifest
+from pancreas_vision.data import discover_records, split_records
+from experiment_runner import run_experiment
 
 
 def parse_args() -> argparse.Namespace:
@@ -94,23 +96,6 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
 
-    import torch
-
-    from pancreas_vision.training import (
-        build_model_with_backbone,
-        create_dataloaders,
-        evaluate_model,
-        now_timestamp,
-        save_experiment_summary,
-        save_metrics,
-        save_predictions,
-        set_random_seed,
-        train_model,
-    )
-
-    start_time = time.time()
-    set_random_seed(args.seed)
-
     records = discover_records(
         data_root=args.data_root,
         include_kpc=args.include_kpc,
@@ -128,107 +113,66 @@ def main() -> None:
         group_aware=args.group_aware_split,
     )
 
-    output_dir = args.output_dir
-    output_dir.mkdir(parents=True, exist_ok=True)
-    write_manifest(train_records, output_dir / "train_manifest.csv")
-    write_manifest(test_records, output_dir / "test_manifest.csv")
-
-    print("Discovered records:", len(records))
-    print("Train label counts:", Counter(record.label_name for record in train_records))
-    print("Test label counts:", Counter(record.label_name for record in test_records))
-    print("Train sample types:", Counter(record.sample_type for record in train_records))
-    print("Test sample types:", Counter(record.sample_type for record in test_records))
-
-    train_loader, test_loader = create_dataloaders(
+    run_experiment(
         train_records=train_records,
         test_records=test_records,
-        image_size=args.image_size,
-        batch_size=args.batch_size,
-        num_workers=args.num_workers,
-        use_weighted_sampler=args.use_weighted_sampler,
-    )
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = build_model_with_backbone(
-        backbone_name=args.backbone,
-        freeze_backbone=args.freeze_backbone,
-        dropout=args.dropout,
-    )
-    history = train_model(
-        model=model,
-        train_loader=train_loader,
-        device=device,
+        output_dir=args.output_dir,
+        model_name=args.backbone,
+        model_kwargs={
+            "freeze_backbone": args.freeze_backbone,
+            "dropout": args.dropout,
+        },
         epochs=args.epochs,
+        batch_size=args.batch_size,
+        image_size=args.image_size,
         learning_rate=args.learning_rate,
         weight_decay=args.weight_decay,
         label_smoothing=args.label_smoothing,
-        output_path=output_dir / "history.json",
+        seed=args.seed,
+        num_workers=args.num_workers,
+        use_weighted_sampler=args.use_weighted_sampler,
+        compute_bag_metrics=False,
+        extra_summary={
+            "arguments": {
+                "data_root": args.data_root.as_posix(),
+                "metadata_csv": args.metadata_csv.as_posix(),
+                "output_dir": args.output_dir.as_posix(),
+                "epochs": args.epochs,
+                "batch_size": args.batch_size,
+                "image_size": args.image_size,
+                "learning_rate": args.learning_rate,
+                "weight_decay": args.weight_decay,
+                "label_smoothing": args.label_smoothing,
+                "test_size": args.test_size,
+                "seed": args.seed,
+                "num_workers": args.num_workers,
+                "backbone": args.backbone,
+                "dropout": args.dropout,
+                "freeze_backbone": args.freeze_backbone,
+                "include_kpc": args.include_kpc,
+                "include_multichannel": args.include_multichannel,
+                "include_resolved_unresolved": args.include_resolved_unresolved,
+                "include_roi_crops": args.include_roi_crops,
+                "group_aware_split": args.group_aware_split,
+                "use_weighted_sampler": args.use_weighted_sampler,
+                "roi_padding_fraction": args.roi_padding_fraction,
+                "allow_manual_check_rows": args.allow_manual_check_rows,
+            },
+            "record_counts": {
+                "total": len(records),
+                "train": len(train_records),
+                "test": len(test_records),
+            },
+            "sample_type_counts": {
+                "train": dict(Counter(record.sample_type for record in train_records)),
+                "test": dict(Counter(record.sample_type for record in test_records)),
+            },
+            "source_bucket_counts": {
+                "train": dict(Counter(record.source_bucket for record in train_records)),
+                "test": dict(Counter(record.source_bucket for record in test_records)),
+            },
+        },
     )
-
-    metrics, predictions = evaluate_model(
-        model=model,
-        data_loader=test_loader,
-        device=device,
-    )
-    save_metrics(metrics, output_dir / "metrics.json")
-    save_predictions(predictions, output_dir / "predictions.json")
-
-    duration_seconds = time.time() - start_time
-    summary = {
-        "started_at": now_timestamp(),
-        "duration_seconds": duration_seconds,
-        "device": str(device),
-        "cuda_device_count": torch.cuda.device_count(),
-        "arguments": {
-            "data_root": args.data_root.as_posix(),
-            "metadata_csv": args.metadata_csv.as_posix(),
-            "output_dir": args.output_dir.as_posix(),
-            "epochs": args.epochs,
-            "batch_size": args.batch_size,
-            "image_size": args.image_size,
-            "learning_rate": args.learning_rate,
-            "weight_decay": args.weight_decay,
-            "label_smoothing": args.label_smoothing,
-            "test_size": args.test_size,
-            "seed": args.seed,
-            "num_workers": args.num_workers,
-            "backbone": args.backbone,
-            "dropout": args.dropout,
-            "freeze_backbone": args.freeze_backbone,
-            "include_kpc": args.include_kpc,
-            "include_multichannel": args.include_multichannel,
-            "include_resolved_unresolved": args.include_resolved_unresolved,
-            "include_roi_crops": args.include_roi_crops,
-            "group_aware_split": args.group_aware_split,
-            "use_weighted_sampler": args.use_weighted_sampler,
-            "roi_padding_fraction": args.roi_padding_fraction,
-            "allow_manual_check_rows": args.allow_manual_check_rows,
-        },
-        "record_counts": {
-            "total": len(records),
-            "train": len(train_records),
-            "test": len(test_records),
-        },
-        "label_counts": {
-            "train": dict(Counter(record.label_name for record in train_records)),
-            "test": dict(Counter(record.label_name for record in test_records)),
-        },
-        "sample_type_counts": {
-            "train": dict(Counter(record.sample_type for record in train_records)),
-            "test": dict(Counter(record.sample_type for record in test_records)),
-        },
-        "source_bucket_counts": {
-            "train": dict(Counter(record.source_bucket for record in train_records)),
-            "test": dict(Counter(record.source_bucket for record in test_records)),
-        },
-        "metrics": metrics.__dict__,
-        "num_prediction_records": len(predictions),
-        "history": [item.__dict__ for item in history],
-    }
-    save_experiment_summary(summary, output_dir / "experiment_summary.json")
-
-    print("Metrics saved to", (output_dir / "metrics.json").as_posix())
-    print(metrics)
 
 
 if __name__ == "__main__":
