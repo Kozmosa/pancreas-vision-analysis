@@ -1,0 +1,11 @@
+{
+  "total_instances": 80,
+  "total_features": 292,
+  "by_type": {
+    "global": 80,
+    "patch": 212
+  },
+  "errors": [],
+  "extractor": "uni2-h",
+  "feature_dim": 1536
+}

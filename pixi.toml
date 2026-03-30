@@ -1,0 +1,17 @@
+[workspace]
+authors = ["Kozmosa <kozmosa@proton.me>"]
+channels = ["conda-forge"]
+name = "pancreas-vision-analysis"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+tqdm = ">=4.67.3,<5"
+huggingface_hub = ">=1.8.0,<2"
+scikit-learn = ">=1.8.0,<2"
+python = "3.11.*"
+pip = ">=26.0.1,<27"
+torchvision = ">=0.25.0,<0.26"
+cuda = ">=13.2.0,<14"

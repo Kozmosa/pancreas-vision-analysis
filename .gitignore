@@ -22,3 +22,11 @@ artifacts/split_protocol_v1/*
 !artifacts/split_protocol_v1/*.csv
 !artifacts/split_protocol_v1/*.json
 !artifacts/split_protocol_v1/*.md
+!artifacts/feature_cache_v1/
+artifacts/feature_cache_v1/*
+!artifacts/feature_cache_v1/*.csv
+!artifacts/feature_cache_v1/*.json
+!artifacts/feature_cache_v1/*.md
+# pixi environments
+.pixi/*
+!.pixi/config.toml
