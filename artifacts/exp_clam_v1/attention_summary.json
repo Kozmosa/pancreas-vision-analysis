@@ -1,0 +1,429 @@
+[
+  {
+    "bag_id": "LESION_CAER_RAW_004",
+    "attention_weights": [
+      0.39515548944473267,
+      0.12293455749750137,
+      0.1618439108133316,
+      0.179363414645195,
+      0.14070263504981995
+    ],
+    "top_instance_indices": [
+      0,
+      3,
+      2,
+      4,
+      1
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "patch",
+      "patch",
+      "patch",
+      "patch"
+    ]
+  },
+  {
+    "bag_id": "LESION_CAER_RAW_007",
+    "attention_weights": [
+      0.4413173198699951,
+      0.1587805151939392,
+      0.1274041384458542,
+      0.1401892900466919,
+      0.1323087215423584
+    ],
+    "top_instance_indices": [
+      0,
+      1,
+      3,
+      4,
+      2
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "patch",
+      "patch",
+      "patch",
+      "patch"
+    ]
+  },
+  {
+    "bag_id": "LESION_CAER_RAW_008",
+    "attention_weights": [
+      0.49522534012794495,
+      0.12409433722496033,
+      0.09787125140428543,
+      0.17518362402915955,
+      0.10762552171945572
+    ],
+    "top_instance_indices": [
+      0,
+      3,
+      1,
+      4,
+      2
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "patch",
+      "patch",
+      "patch",
+      "patch"
+    ]
+  },
+  {
+    "bag_id": "LESION_CAER_RAW_011",
+    "attention_weights": [
+      0.42098382115364075,
+      0.13667835295200348,
+      0.12056855112314224,
+      0.20716972649097443,
+      0.1145995706319809
+    ],
+    "top_instance_indices": [
+      0,
+      3,
+      1,
+      2,
+      4
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "patch",
+      "patch",
+      "patch",
+      "patch"
+    ]
+  },
+  {
+    "bag_id": "LESION_KC_RAW_002",
+    "attention_weights": [
+      0.2528558671474457,
+      0.2065843641757965,
+      0.17475514113903046,
+      0.15920470654964447,
+      0.20659999549388885
+    ],
+    "top_instance_indices": [
+      0,
+      4,
+      1,
+      2,
+      3
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "patch",
+      "patch",
+      "patch",
+      "patch"
+    ]
+  },
+  {
+    "bag_id": "LESION_KC_RAW_003",
+    "attention_weights": [
+      0.3611827492713928,
+      0.15854738652706146,
+      0.17113231122493744,
+      0.16641642153263092,
+      0.14272114634513855
+    ],
+    "top_instance_indices": [
+      0,
+      2,
+      3,
+      1,
+      4
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "patch",
+      "patch",
+      "patch",
+      "patch"
+    ]
+  },
+  {
+    "bag_id": "LESION_KC_RAW_006",
+    "attention_weights": [
+      0.27388858795166016,
+      0.13728509843349457,
+      0.122188039124012,
+      0.20669028162956238,
+      0.2599479556083679
+    ],
+    "top_instance_indices": [
+      0,
+      4,
+      3,
+      1,
+      2
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "patch",
+      "patch",
+      "patch",
+      "patch"
+    ]
+  },
+  {
+    "bag_id": "LESION_KC_RAW_008",
+    "attention_weights": [
+      0.149810329079628,
+      0.14823272824287415,
+      0.1616281270980835,
+      0.1970917135477066,
+      0.06498268246650696,
+      0.06483995914459229,
+      0.09259015321731567,
+      0.12082424014806747
+    ],
+    "top_instance_indices": [
+      3,
+      2,
+      0,
+      1,
+      7
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "global",
+      "global",
+      "global",
+      "patch"
+    ]
+  },
+  {
+    "bag_id": "LESION_KC_RAW_012",
+    "attention_weights": [
+      0.11955622583627701,
+      0.06096702814102173,
+      0.08598969876766205,
+      0.10875557363033295,
+      0.06410723924636841,
+      0.11919895559549332,
+      0.1517905592918396,
+      0.11275725811719894,
+      0.06706122308969498,
+      0.04913778975605965,
+      0.06067844480276108
+    ],
+    "top_instance_indices": [
+      6,
+      0,
+      5,
+      7,
+      3
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "global",
+      "global",
+      "patch",
+      "global"
+    ]
+  },
+  {
+    "bag_id": "LESION_KPC_RAW_003",
+    "attention_weights": [
+      0.3611827492713928,
+      0.15854738652706146,
+      0.17113231122493744,
+      0.16641642153263092,
+      0.14272114634513855
+    ],
+    "top_instance_indices": [
+      0,
+      2,
+      3,
+      1,
+      4
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "patch",
+      "patch",
+      "patch",
+      "patch"
+    ]
+  },
+  {
+    "bag_id": "LESION_KPC_RAW_004",
+    "attention_weights": [
+      0.3408835232257843,
+      0.1681337058544159,
+      0.15144354104995728,
+      0.18008629977703094,
+      0.1594529002904892
+    ],
+    "top_instance_indices": [
+      0,
+      3,
+      1,
+      4,
+      2
+    ],
+    "top_magnifications": [
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown",
+      "unknown"
+    ],
+    "top_channels": [
+      "single",
+      "single",
+      "single",
+      "single",
+      "single"
+    ],
+    "top_feature_types": [
+      "global",
+      "patch",
+      "patch",
+      "patch",
+      "patch"
+    ]
+  }
+]

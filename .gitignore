@@ -27,6 +27,11 @@ artifacts/feature_cache_v1/*
 !artifacts/feature_cache_v1/*.csv
 !artifacts/feature_cache_v1/*.json
 !artifacts/feature_cache_v1/*.md
+!artifacts/exp_clam_v1/
+artifacts/exp_clam_v1/*
+!artifacts/exp_clam_v1/*.csv
+!artifacts/exp_clam_v1/*.json
+!artifacts/exp_clam_v1/*.md
 # pixi environments
 .pixi/*
 !.pixi/config.toml

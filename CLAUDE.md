@@ -9,11 +9,9 @@ It now also contains a structured Python package (`pancreas_vision`) for baselin
 
 The current project scope should be taken from `docs/ProjectDemand.md`. The proposal PDF `docs/基于基因组学的胰腺癌早期ADM向PanIN生物标记物的发现和验证-申报书.pdf` is a predecessor project, useful for background only, and should not be treated as the authoritative requirements document for this repo.
 
-The repo now has `pyproject.toml` for dependency management. Install with `pip install -e .` (after activating a suitable Python environment with torch and torchvision). There is no CI pipeline or automated test harness.
+The repo uses `pixi.toml` for system-level package management. Install with `pip install -e .` after activating a suitable Python environment with torch and torchvision. There is no CI pipeline or automated test harness.
 
 ## Current commands
-
-There are still no project-specific lint or test commands.
 
 Setup (after activating a Python 3.10+ environment with torch):
 
@@ -30,6 +28,8 @@ Useful commands in the current repo:
 - `python3 src/train_improved.py --help`
 - `PYTHONPATH=src python3 src/build_bag_protocol.py --help`
 - `PYTHONPATH=src python3 src/build_split_protocol.py --help`
+- `PYTHONPATH=src python3 src/extract_features.py --help`
+- `PYTHONPATH=src python3 src/train_clam.py --help`
 - `python -c "from pancreas_vision.models import list_models; print(list_models())"`
 
 ## Current sources of truth
@@ -43,6 +43,7 @@ Useful commands in the current repo:
 - `data/KC/*.json` for current ROI polygon annotations
 - `artifacts/bag_protocol_v1/` for the current lesion-level bag protocol outputs
 - `artifacts/split_protocol_v1/` for the current lesion-level split and evaluation protocol outputs
+- `artifacts/feature_cache_v1/` for cached UNI features (1536-dim)
 
 ## Current project objective
 
@@ -76,7 +77,19 @@ src/pancreas_vision/
 │   ├── records.py        # ImageRecord, discover_records, metadata parsing, ROI crops
 │   ├── dataset.py        # MicroscopyDataset (PyTorch Dataset)
 │   └── splitting.py      # split_records, group-aware splits
+├── models/               # Model implementations
+│   ├── __init__.py
+│   └── clam.py           # CLAMSingleBranch for MIL classification
 ├── models.py             # Model registry (@register_model) + ResNet builders
+├── features/             # Feature extraction and caching
+│   ├── __init__.py
+│   ├── extractors.py     # UNIExtractor, DINOv2Extractor
+│   ├── cache.py          # Feature caching utilities
+│   ├── patches.py        # Local patch sampling
+│   └── dataset.py        # BagFeatureDataset for MIL training
+├── engine/               # Training engines
+│   ├── __init__.py
+│   └── mil.py            # MIL training loop for CLAM
 ├── engine.py             # Training loop, evaluation, bag aggregation, dataloaders
 ├── io.py                 # JSON/CSV serialization, manifest writing
 └── protocols/            # Bag and split protocol construction
@@ -92,6 +105,8 @@ Top-level scripts in `src/`:
 - `build_bag_protocol.py` — Generate bag manifests
 - `build_split_protocol.py` — Generate train/test splits and CV folds
 - `experiment_runner.py` — Shared experiment workflow (used by both training scripts)
+- `extract_features.py` — Extract and cache UNI/DINOv2 features
+- `train_clam.py` — Train CLAM model for lesion-level MIL classification
 
 ## Current dataset semantics
 

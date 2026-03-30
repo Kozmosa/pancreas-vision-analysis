@@ -87,3 +87,22 @@ class SourceBucketErrorRecord:
     false_positive_count: int
     false_negative_count: int
     accuracy: float
+
+
+@dataclass
+class AttentionSummaryRecord:
+    """Attention weights summary for a bag in CLAM model."""
+    bag_id: str
+    attention_weights: list[float]
+    top_instance_indices: list[int]
+    top_magnifications: list[str]
+    top_channels: list[str]
+    top_feature_types: list[str]
+
+
+@dataclass
+class MILTrainingHistory:
+    """Training history for MIL/CLAM models."""
+    epoch: int
+    train_loss: float
+    learning_rate: float

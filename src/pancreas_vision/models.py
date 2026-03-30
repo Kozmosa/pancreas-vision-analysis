@@ -106,3 +106,27 @@ def build_resnet34(
         freeze_backbone=freeze_backbone,
         dropout=dropout,
     )
+
+
+@register_model("clam_single")
+def build_clam_single(
+    feature_dim: int = 1536,
+    hidden_dim: int = 256,
+    attention_dim: int = 128,
+    num_classes: int = 2,
+    dropout: float = 0.1,
+    magnification_dim: int = 16,
+    channel_dim: int = 8,
+) -> nn.Module:
+    """Build CLAM single-branch model for MIL classification."""
+    from pancreas_vision.models.clam import CLAMSingleBranch
+
+    return CLAMSingleBranch(
+        feature_dim=feature_dim,
+        hidden_dim=hidden_dim,
+        attention_dim=attention_dim,
+        num_classes=num_classes,
+        dropout=dropout,
+        magnification_dim=magnification_dim,
+        channel_dim=channel_dim,
+    )

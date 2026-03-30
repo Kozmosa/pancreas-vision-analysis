@@ -5,6 +5,16 @@
 - 主线目标固定为：在当前 `ADM vs PanIN` 任务上，把单图分类升级为 `lesion-level bag + UNI/DINOv2 特征 + CLAM`，并把 `StyleGAN3` 作为后续增强支线。
 - 阶段顺序固定为：`bag 数据协议 -> UNI 特征缓存 -> CLAM 主实验 -> 错误分析 -> StyleGAN3 消融`。后一步不得阻塞前一步。
 
+## Progress
+
+| 阶段 | 状态 | 产出 |
+|------|------|------|
+| B-1: Bag 数据协议 | ✅ 完成 | `artifacts/bag_protocol_v1/` |
+| B-2: Split 协议 | ✅ 完成 | `artifacts/split_protocol_v1/` |
+| B-3: 特征缓存 | ✅ 完成 | `artifacts/feature_cache_v1/` (292 features, UNI2-h) |
+| B-4: CLAM 训练 | ✅ 完成 | `src/pancreas_vision/models/clam.py`, `src/train_clam.py` |
+| B-5: 错误分析 | 🔄 待开始 | - |
+
 ## A 同学任务：
 
 ### A-1. 冻结病灶分组规则
