@@ -106,3 +106,35 @@ class MILTrainingHistory:
     epoch: int
     train_loss: float
     learning_rate: float
+
+
+@dataclass
+class HardCaseBagSummary:
+    """Hard-case bag analysis summary for GAN training consideration."""
+    bag_id: str
+    label_name: str
+    source_buckets: str
+    predicted_correctly: bool
+    positive_score: float
+    error_type: str | None  # "false_positive" or "false_negative"
+    instance_count: int
+    top_attention_instances: list[str]
+    top_attention_channels: list[str]
+    boundary_score: float  # Distance from 0.5
+    recommended_for_gan: bool
+    gan_reason: str
+
+
+@dataclass
+class GANPatchCandidate:
+    """Patch candidate for GAN augmentation training data."""
+    instance_id: str
+    bag_id: str
+    image_path: str
+    magnification: str
+    channel_name: str
+    true_label_name: str
+    attention_weight: float
+    attention_rank: int
+    selection_reason: str
+    priority_score: float
