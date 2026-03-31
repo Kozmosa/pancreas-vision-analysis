@@ -1,0 +1,12 @@
+{
+  "metadata": {
+    "total_candidates": 0,
+    "shortlisted_count": 0,
+    "max_shortlist_size": 20,
+    "selection_criteria": {},
+    "source_bucket_summary": {},
+    "channel_summary": {},
+    "notes": "Shortlisted candidates are sorted by priority score. High attention FP instances from misclassified ADM bags are prioritized. ck19 channel and 40x magnification instances receive priority boost."
+  },
+  "shortlist": []
+}

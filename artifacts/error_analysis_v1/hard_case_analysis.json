@@ -1,0 +1,44 @@
+[
+  {
+    "bag_id": "LESION_MC_001",
+    "label_name": "ADM",
+    "source_buckets": "multichannel_adm|multichannel_kc_adm",
+    "predicted_correctly": false,
+    "positive_score": 0.8661917448043823,
+    "error_type": "false_positive",
+    "instance_count": 60,
+    "top_attention_instances": [],
+    "top_attention_channels": [
+      "ck19",
+      "ck19",
+      "ck19",
+      "ck19",
+      "ck19"
+    ],
+    "boundary_score": 0.3661917448043823,
+    "recommended_for_gan": true,
+    "gan_reason": "misclassified_false_positive"
+  },
+  {
+    "bag_id": "LESION_MC_002",
+    "label_name": "ADM",
+    "source_buckets": "multichannel_kc_adm",
+    "predicted_correctly": false,
+    "positive_score": 0.9947971701622008,
+    "error_type": "false_positive",
+    "instance_count": 30,
+    "top_attention_instances": [
+      "INSTANCE_0080"
+    ],
+    "top_attention_channels": [
+      "merge",
+      "amylase",
+      "amylase",
+      "merge",
+      "merge"
+    ],
+    "boundary_score": 0.4947971701622008,
+    "recommended_for_gan": true,
+    "gan_reason": "misclassified_false_positive"
+  }
+]

@@ -1,0 +1,6 @@
+source_bucket,bag_count,error_count,false_positive_count,false_negative_count,accuracy
+KC,5,0,0,0,1.0
+KPC,1,0,0,0,1.0
+caerulein_adm,3,0,0,0,1.0
+multichannel_adm,1,1,1,0,0.0
+multichannel_kc_adm,2,2,2,0,0.0
