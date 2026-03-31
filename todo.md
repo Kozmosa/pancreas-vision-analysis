@@ -13,7 +13,7 @@
 | B-2: Split 协议 | ✅ 完成 | `artifacts/split_protocol_v1/` |
 | B-3: 特征缓存 | ✅ 完成 | `artifacts/feature_cache_v1/` (292 features, UNI2-h) |
 | B-4: CLAM 训练 | ✅ 完成 | `src/pancreas_vision/models/clam.py`, `src/train_clam.py` |
-| B-5: 错误分析 | 🔄 待开始 | - |
+| B-5: 错误分析 | ✅ 完成 | `src/pancreas_vision/analysis/`, `artifacts/error_analysis_v1/` |
 
 ## A 同学任务：
 
