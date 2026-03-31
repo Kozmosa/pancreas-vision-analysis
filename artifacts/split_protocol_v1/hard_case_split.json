@@ -1,0 +1,26 @@
+{
+  "split_type": "hard_case_split",
+  "seed": 42,
+  "target_test_size": 0.3,
+  "forced_test_bags": [
+    "LESION_MC_001",
+    "LESION_MC_002"
+  ],
+  "forced_bag_count": 2,
+  "forced_labels": {
+    "ADM": 2
+  },
+  "actual_test_count": 11,
+  "actual_train_count": 24,
+  "role_distribution": {
+    "test": {
+      "ADM": 5,
+      "PanIN": 6
+    },
+    "train": {
+      "ADM": 9,
+      "PanIN": 15
+    }
+  },
+  "total_bag_count": 35
+}
