@@ -8,6 +8,11 @@ from pancreas_vision.protocols.bag_protocol import (
     render_summary_markdown,
     write_protocol_outputs,
 )
+from pancreas_vision.protocols.hard_case_split import (
+    build_hard_case_split,
+    build_hard_case_split_summary,
+    write_hard_case_split,
+)
 from pancreas_vision.protocols.split_protocol import (
     BagSplitRow,
     FoldAssignmentRow,
@@ -26,12 +31,15 @@ __all__ = [
     "InstanceRow",
     "build_evaluation_template",
     "build_grouped_folds",
+    "build_hard_case_split",
+    "build_hard_case_split_summary",
     "build_protocol_artifacts",
     "build_split_summary",
     "build_summary",
     "build_train_test_split",
     "render_split_summary_markdown",
     "render_summary_markdown",
+    "write_hard_case_split",
     "write_protocol_outputs",
     "write_split_outputs",
 ]
