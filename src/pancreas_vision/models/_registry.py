@@ -119,7 +119,7 @@ def build_clam_single(
     channel_dim: int = 8,
 ) -> nn.Module:
     """Build CLAM single-branch model for MIL classification."""
-    from pancreas_vision.models.clam import CLAMSingleBranch
+    from .clam import CLAMSingleBranch
 
     return CLAMSingleBranch(
         feature_dim=feature_dim,

@@ -67,7 +67,7 @@ class TestCreateDataloaders:
 
     def test_creates_dataloaders(self, sample_records_list: list[ImageRecord]):
         """Test that dataloaders are created successfully."""
-        with mock.patch("pancreas_vision.engine.MicroscopyDataset") as mock_dataset:
+        with mock.patch("pancreas_vision.engine._training.MicroscopyDataset") as mock_dataset:
             mock_dataset.return_value.__len__ = lambda self: len(sample_records_list)
             mock_dataset.return_value.__getitem__ = lambda self, idx: (None, 0, "key")
 
@@ -84,7 +84,7 @@ class TestCreateDataloaders:
 
     def test_weighted_sampler_option(self, sample_records_list: list[ImageRecord]):
         """Test that weighted sampler option is accepted."""
-        with mock.patch("pancreas_vision.engine.MicroscopyDataset") as mock_dataset:
+        with mock.patch("pancreas_vision.engine._training.MicroscopyDataset") as mock_dataset:
             mock_dataset.return_value.__len__ = lambda self: len(sample_records_list)
             mock_dataset.return_value.__getitem__ = lambda self, idx: (None, 0, "key")
 

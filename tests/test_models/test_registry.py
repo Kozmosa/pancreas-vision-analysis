@@ -77,7 +77,7 @@ class TestBuildModel:
     def test_builds_registered_model(self):
         """Test building a registered model."""
         # Mock the ResNet builder
-        with mock.patch("pancreas_vision.models._build_resnet") as mock_build:
+        with mock.patch("pancreas_vision.models._registry._build_resnet") as mock_build:
             mock_model = mock.MagicMock()
             mock_build.return_value = mock_model
 
@@ -105,7 +105,7 @@ class TestResNetBuilders:
 
     def test_build_resnet18_calls_helper(self):
         """Test that build_resnet18 calls _build_resnet with correct args."""
-        with mock.patch("pancreas_vision.models._build_resnet") as mock_build:
+        with mock.patch("pancreas_vision.models._registry._build_resnet") as mock_build:
             mock_build.return_value = mock.MagicMock()
 
             build_resnet18(num_classes=3, freeze_backbone=True, dropout=0.5)
@@ -115,7 +115,7 @@ class TestResNetBuilders:
 
     def test_build_resnet34_calls_helper(self):
         """Test that build_resnet34 calls _build_resnet with correct args."""
-        with mock.patch("pancreas_vision.models._build_resnet") as mock_build:
+        with mock.patch("pancreas_vision.models._registry._build_resnet") as mock_build:
             mock_build.return_value = mock.MagicMock()
 
             build_resnet34(num_classes=4, freeze_backbone=False, dropout=0.3)
