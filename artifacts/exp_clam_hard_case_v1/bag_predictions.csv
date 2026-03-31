@@ -1,0 +1,12 @@
+bag_id,true_label,true_label_name,predicted_label,predicted_label_name,positive_score,correct,source_buckets,instance_count,dominant_channel,dominant_magnification
+LESION_MC_001,0,ADM,1,PanIN,0.8661917448043823,False,multichannel_adm|multichannel_kc_adm,60,unknown,unknown
+LESION_MC_002,0,ADM,1,PanIN,0.9947971701622009,False,multichannel_kc_adm,30,unknown,unknown
+LESION_CAER_RAW_004,0,ADM,0,ADM,0.07431983202695847,True,caerulein_adm,5,unknown,unknown
+LESION_CAER_RAW_007,0,ADM,0,ADM,0.04908209294080734,True,caerulein_adm,5,unknown,unknown
+LESION_CAER_RAW_008,0,ADM,0,ADM,0.11288280785083771,True,caerulein_adm,5,unknown,unknown
+LESION_KC_RAW_002,1,PanIN,1,PanIN,0.9895639419555664,True,KC,5,unknown,unknown
+LESION_KC_RAW_003,1,PanIN,1,PanIN,0.9675948619842529,True,KC,5,unknown,unknown
+LESION_KC_RAW_006,1,PanIN,1,PanIN,0.9948762059211731,True,KC,5,unknown,unknown
+LESION_KC_RAW_008,1,PanIN,1,PanIN,0.9716794490814209,True,KC,8,unknown,unknown
+LESION_KC_RAW_012,1,PanIN,1,PanIN,0.9924029111862183,True,KC,11,unknown,unknown
+LESION_KPC_RAW_004,1,PanIN,1,PanIN,0.9945971965789795,True,KPC,5,unknown,unknown

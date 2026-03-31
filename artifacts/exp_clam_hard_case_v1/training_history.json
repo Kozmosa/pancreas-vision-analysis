@@ -1,0 +1,102 @@
+[
+  {
+    "epoch": 1,
+    "train_loss": 0.9919081330299377,
+    "learning_rate": 9.938441702975689e-05
+  },
+  {
+    "epoch": 2,
+    "train_loss": 0.7698865147928396,
+    "learning_rate": 9.755282581475769e-05
+  },
+  {
+    "epoch": 3,
+    "train_loss": 0.5609446012725433,
+    "learning_rate": 9.45503262094184e-05
+  },
+  {
+    "epoch": 4,
+    "train_loss": 0.44109587495525676,
+    "learning_rate": 9.045084971874738e-05
+  },
+  {
+    "epoch": 5,
+    "train_loss": 0.32133200112730265,
+    "learning_rate": 8.535533905932738e-05
+  },
+  {
+    "epoch": 6,
+    "train_loss": 0.2525782010828455,
+    "learning_rate": 7.938926261462366e-05
+  },
+  {
+    "epoch": 7,
+    "train_loss": 0.18154228758066893,
+    "learning_rate": 7.269952498697734e-05
+  },
+  {
+    "epoch": 8,
+    "train_loss": 0.1479138407545785,
+    "learning_rate": 6.545084971874738e-05
+  },
+  {
+    "epoch": 9,
+    "train_loss": 0.1288872154739996,
+    "learning_rate": 5.782172325201156e-05
+  },
+  {
+    "epoch": 10,
+    "train_loss": 0.10647383658215404,
+    "learning_rate": 5.000000000000001e-05
+  },
+  {
+    "epoch": 11,
+    "train_loss": 0.09406398508387308,
+    "learning_rate": 4.217827674798848e-05
+  },
+  {
+    "epoch": 12,
+    "train_loss": 0.0894090801011771,
+    "learning_rate": 3.454915028125264e-05
+  },
+  {
+    "epoch": 13,
+    "train_loss": 0.08284729284544785,
+    "learning_rate": 2.730047501302267e-05
+  },
+  {
+    "epoch": 14,
+    "train_loss": 0.07816434473109742,
+    "learning_rate": 2.0610737385376356e-05
+  },
+  {
+    "epoch": 15,
+    "train_loss": 0.07279075200979908,
+    "learning_rate": 1.464466094067263e-05
+  },
+  {
+    "epoch": 16,
+    "train_loss": 0.07171361551930507,
+    "learning_rate": 9.549150281252635e-06
+  },
+  {
+    "epoch": 17,
+    "train_loss": 0.06762057884285848,
+    "learning_rate": 5.4496737905816115e-06
+  },
+  {
+    "epoch": 18,
+    "train_loss": 0.06846157911544044,
+    "learning_rate": 2.4471741852423237e-06
+  },
+  {
+    "epoch": 19,
+    "train_loss": 0.06733164323183398,
+    "learning_rate": 6.155829702431171e-07
+  },
+  {
+    "epoch": 20,
+    "train_loss": 0.06701969650263588,
+    "learning_rate": 0.0
+  }
+]
