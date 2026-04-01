@@ -1,0 +1,27 @@
+{
+  "gan_training_data": {
+    "total_instances": 18,
+    "copied_images": 18,
+    "skipped_images": 0,
+    "output_dir": "artifacts/gan_augmented_v1/gan_train",
+    "images_dir": "artifacts/gan_augmented_v1/gan_train/images"
+  },
+  "synthetic_instances": {
+    "total_generated": 4,
+    "accepted": 4,
+    "rejected": 0
+  },
+  "augmentation_stats": {
+    "original_instances": 80,
+    "synthetic_instances_added": 4,
+    "total_instances": 84,
+    "bags_with_synthetic": [
+      "LESION_MC_001",
+      "LESION_MC_002"
+    ],
+    "synthetic_per_bag": {
+      "LESION_MC_001": 2,
+      "LESION_MC_002": 2
+    }
+  }
+}

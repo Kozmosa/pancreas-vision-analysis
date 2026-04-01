@@ -1,0 +1,51 @@
+{
+  "total_instances": 4,
+  "accepted_instances": 4,
+  "rejected_instances": 0,
+  "instances": [
+    {
+      "synthetic_id": "SYNTH_LESION_MC_001_000",
+      "source_bag_id": "LESION_MC_001",
+      "image_path": "artifacts/gan_augmented_v1/synthetic_images/SYNTH_LESION_MC_001_000.png",
+      "label_name": "ADM",
+      "seed": 42,
+      "truncation_psi": 0.7,
+      "is_filtered": true,
+      "similarity_score": 0.171875,
+      "feature_path": null
+    },
+    {
+      "synthetic_id": "SYNTH_LESION_MC_001_001",
+      "source_bag_id": "LESION_MC_001",
+      "image_path": "artifacts/gan_augmented_v1/synthetic_images/SYNTH_LESION_MC_001_001.png",
+      "label_name": "ADM",
+      "seed": 43,
+      "truncation_psi": 0.7,
+      "is_filtered": true,
+      "similarity_score": 0.12698412698412698,
+      "feature_path": null
+    },
+    {
+      "synthetic_id": "SYNTH_LESION_MC_002_000",
+      "source_bag_id": "LESION_MC_002",
+      "image_path": "artifacts/gan_augmented_v1/synthetic_images/SYNTH_LESION_MC_002_000.png",
+      "label_name": "ADM",
+      "seed": 44,
+      "truncation_psi": 0.7,
+      "is_filtered": true,
+      "similarity_score": 0.09523809523809523,
+      "feature_path": null
+    },
+    {
+      "synthetic_id": "SYNTH_LESION_MC_002_001",
+      "source_bag_id": "LESION_MC_002",
+      "image_path": "artifacts/gan_augmented_v1/synthetic_images/SYNTH_LESION_MC_002_001.png",
+      "label_name": "ADM",
+      "seed": 45,
+      "truncation_psi": 0.7,
+      "is_filtered": true,
+      "similarity_score": 0.109375,
+      "feature_path": null
+    }
+  ]
+}

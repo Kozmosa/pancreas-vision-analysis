@@ -42,6 +42,11 @@ artifacts/error_analysis_v1/*
 !artifacts/error_analysis_v1/*.csv
 !artifacts/error_analysis_v1/*.json
 !artifacts/error_analysis_v1/*.md
+!artifacts/gan_augmented_v1/
+artifacts/gan_augmented_v1/*
+!artifacts/gan_augmented_v1/*.csv
+!artifacts/gan_augmented_v1/*.json
+!artifacts/gan_augmented_v1/*.md
 # pixi environments
 .pixi/*
 !.pixi/config.toml
