@@ -14,6 +14,7 @@
 | B-3: 特征缓存 | ✅ 完成 | `artifacts/feature_cache_v1/` (292 features, UNI2-h) |
 | B-4: CLAM 训练 | ✅ 完成 | `src/pancreas_vision/models/clam.py`, `src/train_clam.py` |
 | B-5: 错误分析 | ✅ 完成 | `src/pancreas_vision/analysis/`, `artifacts/error_analysis_v1/` |
+| B-6: StyleGAN3 增强支线 | ✅ 完成 | `src/pancreas_vision/gan/`, `artifacts/gan_augmented_v1/` |
 
 ## A 同学任务：
 
