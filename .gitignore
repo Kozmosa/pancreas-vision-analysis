@@ -5,6 +5,14 @@ package.json
 # Python caches
 __pycache__/
 *.py[cod]
+*.egg-info/
+.coverage
+
+# Backup files
+*.bak
+
+# Lock files (optional, uncomment if needed)
+# uv.lock
 
 # Local tooling
 .claude/
